@@ -2,23 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+*,
+html {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* :root {
   --background: #ffffff;
   --foreground: #171717;
 }
+
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
-body {
+/* body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
+
+} */
 
 @layer utilities {
   .text-balance {
@@ -30,9 +38,10 @@ body {
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
+    --active: 0 0% 80%;
+    --card: 0 0% 98%;
     --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
+    --popover: 0 0% 93%;
     --popover-foreground: 0 0% 3.9%;
     --primary: 0 0% 9%;
     --primary-foreground: 0 0% 98%;
@@ -54,12 +63,14 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
-    --background: 0 0% 3.9%;
+    --background: 0 0% 5%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
+    --active: 0 0% 25%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 20%;
     --popover-foreground: 0 0% 98%;
     --primary: 0 0% 98%;
     --primary-foreground: 0 0% 9%;
@@ -71,7 +82,7 @@ body {
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
+    --border: 0 0% 13%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
     --chart-1: 220 70% 50%;
@@ -82,11 +93,99 @@ body {
   }
 }
 
+
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .sideBarLink:not(.unrotateable):hover {
+    svg {
+      animation: linkIconRotate 0.5s ease-out 1 forwards;
+    }
+  }
+
+  .listOrderItem .listOrderContent::before {
+    position: absolute;
+    content: "";
+    left: 0;
+    height: 100%;
+    width: 2px;
+  }
+
+  .listOrderItem .listOrderContent::before {
+    background-color: var(--bg_color)
+  }
+
+  .first_a_item::before {
+    content: 'Group A 🟪';
+  }
+
+  .first_b_item::before {
+    content: 'Group B 🟨';
+  }
+
+  .resultProgress {
+    animation-delay: 500ms;
+    animation-name: widthTransition;
+    animation-fill-mode: forwards;
+    animation-duration: 1s;
+    animation-timing-function: ease-out
+  }
+
+  .vsText {
+    background: -webkit-linear-gradient(#ff6a00, #6f2802);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .olTest {
+    list-style-type: "🔥";
+  }
+
+  .heroDiv {
+    background-size: 40px 40px;
+    /* background-image: radial-gradient(circle, #ef4444 1px, rgba(0, 0, 0, 0) 2px); */
+    background:
+      conic-gradient(from 90deg at 1px 1px, transparent 90deg, #ef44441b 0) 20px 20px/40px 40px;
+  }
+
+  .stageContainerBracket:last-of-type>section {
+    display: none;
+  }
+}
+
+@keyframes linkIconRotate {
+  0% {
+    rotate: 0;
+  }
+
+  25% {
+    rotate: 20deg;
+  }
+
+  75% {
+    rotate: -20deg;
+  }
+
+  100% {
+    rotate: 0;
+  }
+
+}
+
+@keyframes widthTransition {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: var(--width_target);
   }
 }

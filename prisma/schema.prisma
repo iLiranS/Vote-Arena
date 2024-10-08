@@ -15,51 +15,43 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-// User related 
-enum Role {
-  User
-  Admin
-  VIP
-}
-
-model Award {
-  id     Int    @id @default(autoincrement())
-  title  String @unique
-  src    String
-  owners User[] @relation("UserAwards")
-}
-
-model User {
-  id             String   @id @default(cuid())
-  role           Role     @default(User)
-  createdAt      DateTime @default(now())
-  name           String
-  imageSrc       String
-  polls          Poll[]
-  participations Int      @default(0)
-  awards         Award[]  @relation("UserAwards")
-}
-
 // poll related 
 
-model Question {
-  id     Int    @id @default(autoincrement())
-  title  String @db.VarChar(75) // I don't want long questions
-  src    String @db.VarChar(400) // just in case
-  poll   Poll   @relation(fields: [pollId], references: [id])
-  pollId String
+enum Genre {
+  ANIMALS
+  ANIME
+  ART
+  BOOKS
+  FOOD
+  GAMING
+  TV
+  SPORT
+  MUSIC
+  NATURE
+  TECH
+  TRAVEL
+  STYLE
+  OTHER
+  PEOPLE
+}
+
+enum PollType {
+  VOTE
+  TOURNY
 }
 
 model Poll {
-  id           String     @id @default(cuid())
-  owner        User       @relation(fields: [ownerId], references: [id])
-  ownerId      String
-  title        String     @db.VarChar(50)
-  createdAt    DateTime   @default(now())
-  isPrivate    Boolean
-  participants Int
-  isVideo      Boolean
-  results      Int[] // each related to question index.
-  questions    Question[] // array of {title, src}
-  pollResultId Int
+  id              String   @id @unique @default(cuid())
+  title           String   @db.VarChar(50)
+  createdAt       DateTime @default(now())
+  submissions     Int      @default(0)
+  isVideo         Boolean // True= video, false = image
+  src             String   @db.VarChar(400)
+  type            PollType
+  additionalField Json
+  options         Json
+  totalScore      Int[]
+  winsCount       Int[]
+  genre           Genre
+  totalDuels      Int[]
 }
