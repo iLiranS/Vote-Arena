@@ -16,8 +16,8 @@ export default function Home() {
 
     <div className=" w-full h-max lg:h-full flex flex-col p-2 pt-0">
 
-      <div className="grid  w-full h-max lg:grid-cols-[1fr,max-content,1fr] grid-cols-1 items-start overflow-hidden heroDiv">
-        <div className="relative hidden h-60 aspect-square lg:block ">
+      <div className="flex justify-center  w-full h-max items-start overflow-hidden heroDiv">
+        <div className="absolute hidden h-60 left-0 aspect-square lg:block -z-10">
           <Illustration1 className=' -translate-y-[20%] -translate-x-[140px] xl:-translate-x-12  lg:scale-[0.35] scale-[0.25]' />
         </div>
         <section className="flex flex-col h-full w-max max-w-full mx-auto justify-center  gap-1">
@@ -39,8 +39,8 @@ export default function Home() {
           </div>
 
         </section>
-        <div className="relative hidden h-60 aspect-square lg:block">
-          <Illustration2 className=' lg:-translate-x-1/3 xl:-translate-x-[20%] scale-[0.4] xl:scale-[0.5]' />
+        <div className=" hidden  w-fit lg:flex justify-end absolute right-0 -z-10">
+          <Illustration2 className=' xl:translate-x-[180px] translate-x-[250px] scale-[0.4] xl:scale-[0.5]' />
         </div>
       </div>
 
