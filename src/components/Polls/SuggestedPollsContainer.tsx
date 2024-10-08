@@ -22,7 +22,7 @@ const getRecentPolls = async (): Promise<previewPoll[]> => {
 }
 
 const SuggestedPollsContainer = async () => {
-    const recentPolls = await getRecentPolls();
+    const recentPolls = await getRecentPolls() ?? [];
     return (
         <SuggestedPolls recentPolls={recentPolls} />
     )

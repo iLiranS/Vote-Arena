@@ -25,7 +25,7 @@ const pollsFetchOptions: pollsFetchModel = {
 const PopularCarousel = async () => {
     const trendingPolls = await getPolls(pollsFetchOptions);
     // get up to random 10 out of top 20 of the day.
-    const randomizePopular = getRandomElementsFromArray(trendingPolls, 10);
+    const randomizePopular = trendingPolls ? getRandomElementsFromArray(trendingPolls, 10) : [];
     return (
         <Carousel
             opts={{

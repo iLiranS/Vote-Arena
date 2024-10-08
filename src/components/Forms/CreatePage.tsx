@@ -45,19 +45,26 @@ const CreatePage = () => {
             captchaToken: token
         }
         setPending(true);
-        const res = await fetch('/api/poll', {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        const data = await res.json();
-        if (!res.ok) {
-            setPending(false);
+        try {
 
+            const res = await fetch('/api/poll', {
+                method: 'POST',
+                body: JSON.stringify(body),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            const data = await res.json();
+            if (!res.ok) {
+                throw new Error('failed creating poll');
+
+            }
+            router.push(`/${data}`);
         }
-        else router.push(`/${data}`);
+        catch (err) {
+            console.error(err);
+            setPending(false);
+        }
     }
 
     useEffect(() => {

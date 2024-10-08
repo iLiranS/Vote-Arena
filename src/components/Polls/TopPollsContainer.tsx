@@ -1,5 +1,6 @@
 import TopPolls from "@/components/Polls/TopPolls";
 import { pollsFetchModel, previewPoll } from '@/lib/models';
+import { notFound } from "next/navigation";
 
 // revliadtion set up 2 hours .
 const dayFetchOptions: pollsFetchModel = {
@@ -47,7 +48,8 @@ const getTopPolls = async (): Promise<previewPoll[][]> => {
 
 
 const TopPollsContainer = async () => {
-    const topPollsLists = await getTopPolls();
+    const topPollsLists = await getTopPolls() ?? [];
+    if (topPollsLists && topPollsLists.length < 3) return notFound();
 
     return (
 

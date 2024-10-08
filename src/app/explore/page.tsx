@@ -10,8 +10,8 @@ import { Button } from '@/components/ui/button';
 
 const prisma = new PrismaClient();
 
-
-
+export const dynamic = 'force-dynamic'
+export const revalidate = 0;
 
 const getMatchCount = async (genre: Genre | undefined, search: string): Promise<number> => {
     const count = await prisma.poll.count({
@@ -34,7 +34,8 @@ const page = async ({ searchParams }: PageProps) => {
 
     // check if genre is real
     if (genre && !Object.keys(Genre).includes(genre)) return notFound();
-    const search = searchParams.search as string;
+    const search = (searchParams.search ?? '') as string;
+    if (search.length < 2) return notFound();
 
     const pollsFetchOptions: pollsFetchModel = {
         skip: 0,
