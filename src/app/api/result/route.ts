@@ -22,10 +22,10 @@ export async function PUT(req: Request) {
         const { totalScore, submissions, winsCount, totalDuels } = poll;
         const updatedWinsCount = [...winsCount];
         updatedWinsCount[winnerIndex]++;
-        const updatedTotalScore = totalScore.map((score, index) => score ? (score + results[index] ?? 0) : results[index] ?? 0);
+        const updatedTotalScore = totalScore.map((score, index) => score + (results[index] ?? 0));
         let updatedPoll: Poll | null = null;
         // updatedDuels will not change if vote poll
-        const updatedDuels = duels ? totalDuels.map((optionDuelsInTourny, index) => optionDuelsInTourny ? (optionDuelsInTourny + duels[index] ?? 0) : duels[index] ?? 0) : totalDuels;
+        const updatedDuels = duels ? totalDuels.map((optionDuelsInTourny, index) => optionDuelsInTourny + (duels[index] ?? 0)) : totalDuels;
 
         updatedPoll = await prisma.poll.update({ where: { id: id }, data: { totalScore: updatedTotalScore, submissions: submissions + 1, winsCount: updatedWinsCount, totalDuels: updatedDuels } })
 
