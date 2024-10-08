@@ -5,7 +5,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient()
 
-export async function DELETE(req: Request) {
+export async function GET(req: Request) {
     if (req.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) return NextResponse.json('Unauthorized', { status: 401 });
 
     const currentDate = new Date()
