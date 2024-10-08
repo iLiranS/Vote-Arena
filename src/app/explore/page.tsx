@@ -35,7 +35,6 @@ const page = async ({ searchParams }: PageProps) => {
     // check if genre is real
     if (genre && !Object.keys(Genre).includes(genre)) return notFound();
     const search = (searchParams.search ?? '') as string;
-    if (search.length < 2) return notFound();
 
     const pollsFetchOptions: pollsFetchModel = {
         skip: 0,
