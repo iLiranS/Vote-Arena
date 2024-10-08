@@ -6,7 +6,7 @@ const MatchItem: React.FC<{ itemProps: optionPollForm, winnerTitle: string, acti
     const isActive = activeItemTitle === itemProps.title;
     return (
         <div onClick={() => { if (itemProps.title === 'TBD') return; onActiveItemChange(itemProps.title) }}
-            className={`   w-40 aspect-[4/1] overflow-hidden border-2 ${isActive && 'border-violet-500'} `}>
+            className={` w-40 aspect-[4/1] overflow-hidden  ${isActive && 'bg-violet-500'} `}>
             <section className={`flex items-center  ${didLose && 'bg-slate-600/50 opacity-50'} w-full h-full pl-2`}>
                 <p className={`truncate ${didLose && 'opacity-60'}`}>{itemProps.title}</p>
                 <p>{itemProps.votes ?? ''}</p>

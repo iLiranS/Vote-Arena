@@ -181,9 +181,9 @@ const TournyPoll: React.FC<{ poll: Poll, onSubmit: (values: number[], token: str
             }
             <Button className='w-fit self-center my-2' variant='secondary' onClick={() => { setShowBracket(prev => !prev) }}>{showBracket ? 'Hide bracket' : 'Show bracket'}</Button>
             {showBracket &&
-                <div className='w-full max-w-full h-full max-h-full overflow-auto'>
-                    <Bracket stages={stages} totalOptions={initialArr.length} />
-                </div>
+                // <div className='w-full max-w-full h-full max-h-full overflow-auto'>
+                <Bracket stages={stages} totalOptions={initialArr.length} />
+                // </div>
             }
         </div>
     )
