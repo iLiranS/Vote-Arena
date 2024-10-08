@@ -11,6 +11,8 @@ import { Button } from '@/components/ui/button';
 const prisma = new PrismaClient();
 
 
+
+
 const getMatchCount = async (genre: Genre | undefined, search: string): Promise<number> => {
     const count = await prisma.poll.count({
         where: {

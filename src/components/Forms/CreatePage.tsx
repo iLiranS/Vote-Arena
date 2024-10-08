@@ -25,7 +25,7 @@ const CreatePage = () => {
     const [showChangeAlert, setShowChangeAlert] = useState(false);
     const router = useRouter();
 
-    const [options, setOptions] = useState<createOptionFormModel[]>(Array.from({ length: 64 }).map((el, index) => ({ title: `${index + 1}`, source: 'image', src: 'https://randomwordgenerator.com/img/picture-generator/dragon-2099840_640.jpg', })));
+    const [options, setOptions] = useState<createOptionFormModel[]>([]);
 
     const updateFormValue = (values: createFormModel) => {
         setFormValue(values);

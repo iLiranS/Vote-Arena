@@ -2,6 +2,14 @@ import CardContainer from '@/components/ui/CardContainer'
 import Link from 'next/link'
 import React from 'react'
 
+export function generateMetadata() {
+
+    return {
+        title: `Vote Arena - about`,
+        description: `about - Vote Arena`
+    }
+}
+
 const page = () => {
     return (
         <CardContainer className=' w-[600px] max-w-full  mx-auto gap-2 relative'>

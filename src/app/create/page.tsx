@@ -1,4 +1,4 @@
-import CreatePage from "@/components/Forms/createPage"
+import CreatePage from "@/components/Forms/CreatePage"
 
 const page = () => {
 
