@@ -6,6 +6,7 @@ import { Outfit } from 'next/font/google'
 import { ThemeProvider } from "next-themes";
 import Footer from "@/components/Footer/Footer";
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 
 const outfit = Outfit({ subsets: ['latin'] })
@@ -44,6 +45,7 @@ export default function RootLayout({
           <Footer />
 
         </ThemeProvider>
+        <SpeedInsights />
         <Analytics />
       </body>
     </html>
