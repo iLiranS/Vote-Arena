@@ -4,12 +4,13 @@ import { NextResponse } from "next/server";
 
 // revalidation only in server component, it wont affect anything in here.
 // this route handler used for poll previews only and not full poll details.
+export const dynamic = 'force-dynamic';
 
 const prisma = new PrismaClient()
 
 export async function GET(req: Request) {
     try {
-        const { searchParams } = new URL(req.url);
+        const { searchParams } = new URL(req.url, process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000');
         const queryParams = Object.fromEntries(searchParams.entries());
 
 

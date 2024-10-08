@@ -3,6 +3,7 @@ import { PollSubmissionRequest } from "@/lib/models";
 import { Poll, PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
+export const dynamic = 'force-dynamic';
 
 const prisma = new PrismaClient()
 

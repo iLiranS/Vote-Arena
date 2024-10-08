@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient()
 
-
+export const dynamic = 'force-dynamic';
 
 
 export async function POST(req: Request) {
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
 }
 
 export async function GET(req: Request) {
-    const { searchParams } = new URL(req.url);
+    const { searchParams } = new URL(req.url, process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000');
     const id = searchParams.get('id');
     if (!id) {
         return NextResponse.json('id was not given.', { status: 404 });
