@@ -43,7 +43,7 @@ export const getPolls = async (pollsFetchOptions: pollsFetchModel, revalidateLen
         const res = await fetch(fetchURL, { next: { revalidate: revalidateLength } });
         if (!res.ok) throw new Error('failed fetching polls');
         const data: pollsFetchResult = await res.json();
-        return data;
+        return { polls: data.polls ?? [], totalPolls: data.totalPolls ?? 0 };
     }
     catch (err) {
         console.error(err);

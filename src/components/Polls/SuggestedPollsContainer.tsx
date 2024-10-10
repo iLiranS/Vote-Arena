@@ -12,7 +12,7 @@ const recentFetchOptions: pollsFetchModel = {
 
 
 const SuggestedPollsContainer = async () => {
-    const { polls } = await getPolls(recentFetchOptions, 300); // 5 mins
+    const polls = (await getPolls(recentFetchOptions, 300)).polls ?? []; // 5 mins
     return (
         <SuggestedPolls recentPolls={polls} />
     )

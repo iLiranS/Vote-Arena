@@ -22,7 +22,7 @@ const pollsFetchOptions: pollsFetchModel = {
 
 
 const PopularCarousel = async () => {
-    const { polls } = await getPolls(pollsFetchOptions, 1800); // 30 minutes
+    const polls = (await getPolls(pollsFetchOptions, 1800)).polls ?? []; // 30 minutes
     // get up to random 10 out of top 20 of the day.
     const randomizePopular = polls.length > 0 ? getRandomElementsFromArray(polls, 10) : [];
     return (
