@@ -47,7 +47,7 @@ const CreatePage = () => {
         setPending(true);
         try {
 
-            const res = await fetch('/api/poll', {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/poll`, {
                 method: 'POST',
                 body: JSON.stringify(body),
                 headers: {

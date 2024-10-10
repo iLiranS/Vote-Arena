@@ -53,7 +53,7 @@ const page = async ({ params }: { params: { poll_id: string } }) => {
                 <p className='text-sm text-center'> <span className='opacity-70'>Results of</span> <span className='text-violet-400 font-bold mx-1'>{poll.submissions}</span> <span className='opacity-70'>submissions</span></p>
                 <GenreLink className='bg-card' genre={poll.genre} />
             </section>
-            <p className='opacity-50 text-xs'>results updates every <span className='font-semibold'>5</span> minutes.</p>
+            <p className='opacity-50 text-xs'>results might take up to<span className='font-semibold'>5</span> minutes to be updated.</p>
             <ol className='flex flex-col gap-2 pb-2'>
                 {pollResultItems.map((el, index) => <PollResultItem tourny={poll.type === 'TOURNY'} index={index} submissions={poll.submissions} key={el.title} resultOption={el} />)}
             </ol>

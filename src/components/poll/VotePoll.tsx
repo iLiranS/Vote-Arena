@@ -1,13 +1,12 @@
 'use client'
 import { optionPollForm } from '@/lib/models'
 import { Poll } from '@prisma/client'
-import { Reorder } from 'framer-motion'
 import React, { useMemo, useState } from 'react'
-import VoteItem from './VoteItem'
 import PopoverTooltip from '../ui/PopoverTooltip'
 import { Button } from '../ui/button'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import { useTheme } from 'next-themes';
+import PollOrderContainer from './PollOrderContainer'
 
 
 const VotePoll: React.FC<{ poll: Poll, onSubmit: (values: number[], token: string, winnerIndex: number) => Promise<boolean> }> = ({ poll, onSubmit }) => {
@@ -18,7 +17,7 @@ const VotePoll: React.FC<{ poll: Poll, onSubmit: (values: number[], token: strin
         const options = typeof poll.options === 'string' ? poll.options : '[]';
         return (JSON.parse(options) as optionPollForm[]);
     }, [poll.options])
-    const extraPointInfo = topAmount > 3 ? `, 4th-${topAmount}th place: 1 point.` : ''
+    const extraPointInfo = topAmount > 3 ? `4th-${topAmount}th place: 1 point.` : ''
 
 
     const [values, setValues] = useState<optionPollForm[]>(initialArr)
@@ -27,7 +26,6 @@ const VotePoll: React.FC<{ poll: Poll, onSubmit: (values: number[], token: strin
 
 
     const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-        console.log("xd");
         e.preventDefault();
         if (!captchaToken || didSubmit) return;
         setDidSubmit(true);
@@ -70,7 +68,6 @@ const VotePoll: React.FC<{ poll: Poll, onSubmit: (values: number[], token: strin
 
 
 
-
     if (values.length < 1) return <p className='text-center animate-pulse'>Loading...</p>
 
 
@@ -89,9 +86,7 @@ const VotePoll: React.FC<{ poll: Poll, onSubmit: (values: number[], token: strin
                         </ul>
                     </div>} />
             </div>
-            <Reorder.Group className='flex flex-col gap-2 self-center w-[600px]  max-w-full px-6 sm:px-0 relative z-10' as='ol' axis='y' values={values} onReorder={setValues}>
-                {values.map((option, index) => <VoteItem top={index < topAmount ? index + 1 : undefined} key={JSON.stringify(option)} option={option} />)}
-            </Reorder.Group>
+            <PollOrderContainer options={values} onChange={setValues} topAmount={topAmount} />
             <div className='justify-center flex flex-col items-center gap-1'>
                 <HCaptcha onExpire={() => { setCaptchaToken(null) }} theme={theme.theme} sitekey={siteKey} onVerify={captchaVerifyHandler} />
                 <Button type='submit' disabled={didSubmit || !captchaToken} className='w-max self-center'>{didSubmit ? 'Submitting...' : 'Submit'}</Button>

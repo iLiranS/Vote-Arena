@@ -7,14 +7,14 @@ import { MdDragIndicator } from "react-icons/md";
 import { Button } from '../ui/button';
 
 
-const VoteItem: React.FC<{ option: optionPollForm, top?: number }> = ({ option, top }) => {
+const VoteItem: React.FC<{ option: optionPollForm, top: number, topAmount: number }> = ({ option, top, topAmount }) => {
     const controls = useDragControls()
 
     return (
-        <Reorder.Item dragListener={false} dragControls={controls} value={option} className='grid grid-cols-[25px,1fr,max-content] items-center'>
+        <Reorder.Item dragControls={controls} dragListener={false} value={option} className='grid grid-cols-[25px,1fr,max-content] items-center reorderItem'>
             <section className='items-center flex '>
-                {top && top <= 3 && <CiMedal className={`text-lg ${top == 1 && 'text-yellow-500 dark:text-yellow-400'} ${top == 2 && 'text-slate-500 dark:text-slate-300'} ${top == 3 && 'text-amber-700'}`} />}
-                {top && top >= 4 && <section className='p-1 aspect-square grid place-items-center'><p className='opacity-60'>{top}</p></section>}
+                {top <= topAmount && top <= 3 && <CiMedal className={`text-lg ${top == 1 && 'text-yellow-500 dark:text-yellow-400'} ${top == 2 && 'text-slate-500 dark:text-slate-300'} ${top == 3 && 'text-amber-700'}`} />}
+                {top <= topAmount && top >= 4 && <section className='p-1 aspect-square grid place-items-center'><p className='opacity-60'>{top}</p></section>}
             </section>
             <div className='flex justify-between bg-card aspect-[4/1] h-full p-2 rounded-md relative'>
                 <h6 className='xs:text-lg xxs:text-sm w-full break-words max-w-[70%] tru'>{option.title}</h6>
