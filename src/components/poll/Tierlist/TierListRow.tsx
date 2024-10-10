@@ -1,9 +1,9 @@
-import React from 'react'
+// import React from 'react'
 
-const TierListRow: React.FC<{ rowName: string }> = ({ rowName }) => {
-  return (
-    <div>TierListRow</div>
-  )
-}
+// const TierListRow: React.FC<{ rowName: string }> = ({ rowName }) => {
+//   return (
+//     <div>TierListRow</div>
+//   )
+// }
 
-export default TierListRow
+// export default TierListRow
