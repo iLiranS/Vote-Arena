@@ -62,7 +62,7 @@ const TopPolls: React.FC<{ daily: previewPoll[], weekly: previewPoll[], monthly:
                     variants={containerVariant}
                     initial="hidden"
                     animate="show"
-                    className=' w-full h-max max-h-[600px] gap-2 grid items-start  grid-cols-[repeat(auto-fit,minmax(280px,1fr))]'>
+                    className=' w-full h-max max-h-[600px] gap-2 grid items-start overflow-y-auto  grid-cols-[repeat(auto-fit,minmax(280px,1fr))]'>
                     {activeListContent}
                 </motion.ol>
             </CardContainer>
