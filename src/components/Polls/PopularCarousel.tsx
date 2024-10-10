@@ -10,8 +10,7 @@ import { pollsFetchModel } from "@/lib/models";
 import { getRandomElementsFromArray } from "@/lib/utils";
 import { getPolls } from "@/lib/fetchUtils";
 
-export const revalidate = 7200; // revalidate every 2 hours.
-
+// 30 mins revalidation (beacuse of getPolls cache)
 const pollsFetchOptions: pollsFetchModel = {
     skip: 0,
     take: 20,
@@ -23,9 +22,9 @@ const pollsFetchOptions: pollsFetchModel = {
 
 
 const PopularCarousel = async () => {
-    const trendingPolls = await getPolls(pollsFetchOptions);
+    const { polls } = await getPolls(pollsFetchOptions, 1800); // 30 minutes
     // get up to random 10 out of top 20 of the day.
-    const randomizePopular = trendingPolls ? getRandomElementsFromArray(trendingPolls, 10) : [];
+    const randomizePopular = polls.length > 0 ? getRandomElementsFromArray(polls, 10) : [];
     return (
         <Carousel
             opts={{

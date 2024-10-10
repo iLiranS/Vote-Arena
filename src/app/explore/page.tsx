@@ -2,30 +2,14 @@ import React from 'react'
 
 import { getPolls } from '@/lib/fetchUtils';
 import { PageProps, pollsFetchModel } from '@/lib/models';
-import { Genre, PrismaClient } from '@prisma/client';
+import { Genre } from '@prisma/client';
 import { notFound } from 'next/navigation';
 import ExploreScroller from '@/components/Polls/ExploreScroller';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
-const prisma = new PrismaClient();
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 0;
-
-const getMatchCount = async (genre: Genre | undefined, search: string): Promise<number> => {
-    const count = await prisma.poll.count({
-        where: {
-            ...(genre ? { genre: genre } : {}),
-            title: {
-                contains: search,
-                mode: 'insensitive'
-            }
-        }
-    })
-    return count;
-}
-
+// it will cache genres but it will not cache genres+search or searc without genre
 const page = async ({ searchParams }: PageProps) => {
 
 
@@ -45,12 +29,11 @@ const page = async ({ searchParams }: PageProps) => {
         match: search
     }
 
-
-    const initialPolls = await getPolls(pollsFetchOptions);
-    const matchCount = await getMatchCount(genre, search);
+    const revalidateLength = search.length > 1 ? 0 : 900; // if its genre search, 15 minutes, else dynamic
+    const { polls, totalPolls } = await getPolls(pollsFetchOptions, revalidateLength);
     return (
         <>
-            {matchCount > 0 ? <ExploreScroller searchOptions={pollsFetchOptions} initialPolls={initialPolls} totalMatchCount={matchCount} /> :
+            {totalPolls > 0 ? <ExploreScroller searchOptions={pollsFetchOptions} initialPolls={polls} totalMatchCount={totalPolls} /> :
                 <div className='flex justify-center flex-col gap-4 text-center w-fit mx-auto'>
                     <p className='opacity-80'>No Polls found 🥺</p>
                     <Button asChild>

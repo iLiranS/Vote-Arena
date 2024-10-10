@@ -33,6 +33,10 @@ export interface previewPoll {
     src: string;
 }
 
+export type pollsFetchResult = {
+    polls: previewPoll[],
+    totalPolls: number
+}
 
 export type createFormModel = z.infer<typeof formSchema>;
 export type createOptionFormModel = z.infer<typeof optionSchema>;

@@ -1,6 +1,6 @@
 'use server'
 import { Poll } from "@prisma/client";
-import { pollsFetchModel, previewPoll } from "./models";
+import { pollsFetchModel, pollsFetchResult } from "./models";
 
 // fetching
 export const getPoll = async (id: string) => {
@@ -32,7 +32,7 @@ export const verifyToken = async (token: string): Promise<boolean> => {
     }
 }
 // revalidates results every 2 hours.
-export const getPolls = async (pollsFetchOptions: pollsFetchModel): Promise<previewPoll[]> => {
+export const getPolls = async (pollsFetchOptions: pollsFetchModel, revalidateLength: number): Promise<pollsFetchResult> => {
     const genreStr = pollsFetchOptions.genre ? `&genre=${pollsFetchOptions.genre}` : '';
     const matchStr = pollsFetchOptions.match ? `&match=${pollsFetchOptions.match}` : ''
 
@@ -40,14 +40,14 @@ export const getPolls = async (pollsFetchOptions: pollsFetchModel): Promise<prev
         const fetchURL = `${process.env.NEXT_PUBLIC_BASE_URL}/api/polls?skip=${pollsFetchOptions.skip}&take=${pollsFetchOptions.take}&orderby=${pollsFetchOptions.orderby}&date=${pollsFetchOptions.date}${genreStr}${matchStr}`
 
 
-        const res = await fetch(fetchURL, { next: { revalidate: 7200 } });
+        const res = await fetch(fetchURL, { next: { revalidate: revalidateLength } });
         if (!res.ok) throw new Error('failed fetching polls');
-        const polls: previewPoll[] = await res.json();
-        return polls;
+        const data: pollsFetchResult = await res.json();
+        return data;
     }
     catch (err) {
         console.error(err);
-        return []
+        return { polls: [], totalPolls: 0 }
     }
 }
 

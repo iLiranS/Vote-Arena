@@ -22,7 +22,7 @@ const ExploreScroller: React.FC<{ initialPolls: previewPoll[], totalMatchCount: 
         setIsFetching(true);
         const updatedSearchOptions: pollsFetchModel = { ...searchOptions, skip: currentSkip };
         try {
-            const polls = await getPolls(updatedSearchOptions);
+            const { polls } = await getPolls(updatedSearchOptions, 0); // dyanmic 
             setPolls(prev => {
                 const fornow = [...prev, ...polls];
                 return fornow;

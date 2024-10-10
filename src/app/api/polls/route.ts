@@ -21,29 +21,39 @@ export async function GET(req: Request) {
 
 
 
-        const polls = await prisma.poll.findMany({
-            where: {
-                ...(fetchOptions.genre ? { genre: fetchOptions.genre } : {}),
-                ...(startDate ? { createdAt: { gte: startDate, lte: endDate } } : {}),
-                ...(fetchOptions.match ? { title: { contains: fetchOptions.match, mode: 'insensitive' } } : {})
-            },
-            skip: fetchOptions.skip,
-            take: fetchOptions.take,
-            orderBy: {
-                ...(fetchOptions.orderby === 'newest' && { createdAt: 'desc' }),
-                ...(fetchOptions.orderby === 'oldest' && { createdAt: 'asc' }),
-                ...(fetchOptions.orderby === 'popular' && { submissions: 'desc' }),
-            },
-            select: {
-                id: true,
-                title: true,
-                submissions: true,
-                type: true,
-                genre: true,
-                src: true
-            },
-        });
-        return NextResponse.json(polls);
+        const [polls, totalPolls] = await prisma.$transaction([
+            prisma.poll.findMany({
+                where: {
+                    ...(fetchOptions.genre ? { genre: fetchOptions.genre } : {}),
+                    ...(startDate ? { createdAt: { gte: startDate, lte: endDate } } : {}),
+                    ...(fetchOptions.match ? { title: { contains: fetchOptions.match, mode: 'insensitive' } } : {})
+                },
+                skip: fetchOptions.skip,
+                take: fetchOptions.take,
+                orderBy: {
+                    ...(fetchOptions.orderby === 'newest' && { createdAt: 'desc' }),
+                    ...(fetchOptions.orderby === 'oldest' && { createdAt: 'asc' }),
+                    ...(fetchOptions.orderby === 'popular' && { submissions: 'desc' }),
+                },
+                select: {
+                    id: true,
+                    title: true,
+                    submissions: true,
+                    type: true,
+                    genre: true,
+                    src: true
+                },
+            }),
+            prisma.poll.count({
+                where: {
+                    ...(fetchOptions.genre ? { genre: fetchOptions.genre } : {}),
+                    ...(startDate ? { createdAt: { gte: startDate, lte: endDate } } : {}),
+                    ...(fetchOptions.match ? { title: { contains: fetchOptions.match, mode: 'insensitive' } } : {})
+                }
+            }),
+        ]);
+
+        return NextResponse.json({ polls, totalPolls });
 
     }
 

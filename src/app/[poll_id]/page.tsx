@@ -7,6 +7,9 @@ import React from 'react'
 
 const prisma = new PrismaClient()
 
+export const dynamic = 'force-static' // poll will never change, hence static
+
+
 
 export async function generateMetadata({ params }: { params: { poll_id: string } }): Promise<Metadata> {
     const id = params.poll_id;

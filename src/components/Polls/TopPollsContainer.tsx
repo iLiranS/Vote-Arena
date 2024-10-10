@@ -1,8 +1,10 @@
 import TopPolls from "@/components/Polls/TopPolls";
-import { pollsFetchModel, previewPoll } from '@/lib/models';
-import { notFound } from "next/navigation";
+import { getPolls } from "@/lib/fetchUtils";
+import { pollsFetchModel } from '@/lib/models';
 
-// revliadtion set up 2 hours .
+// revliadtion set up 20 minutes for the page itself
+// but the actual reequests are revalidating depends on the time i gave them.
+
 const dayFetchOptions: pollsFetchModel = {
     skip: 0,
     take: 10,
@@ -22,38 +24,16 @@ const monthFetchOptions: pollsFetchModel = {
     date: 'month'
 }
 
-// kind of heavy function, 3 requests so revlidate not often.
-const getTopPolls = async (): Promise<previewPoll[][]> => {
-    try {
-
-        const dayList = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/polls?skip=${dayFetchOptions.skip}&take=${dayFetchOptions.take}&orderby=${dayFetchOptions.orderby}&date=${dayFetchOptions.date}`, { next: { revalidate: 7200 } });
-        if (!dayList.ok) throw new Error("failed fetching daily list");
-        const dayListRes: previewPoll[] = await dayList.json();
-
-        const weekList = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/polls?skip=${weekFetchOptions.skip}&take=${weekFetchOptions.take}&orderby=${weekFetchOptions.orderby}&date=${weekFetchOptions.date}`, { next: { revalidate: 7200 } });
-        const weekListRes: previewPoll[] = await weekList.json();
-        if (!weekList.ok) throw new Error("failed fetching weekly list");
-
-        const monthList = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/polls?skip=${monthFetchOptions.skip}&take=${monthFetchOptions.take}&orderby=${monthFetchOptions.orderby}&date=${monthFetchOptions.date}`, { next: { revalidate: 7200 } });
-        const monthListRes: previewPoll[] = await monthList.json();
-        if (!monthList.ok) throw new Error("failed fetching monthly list");
-
-        return [dayListRes, weekListRes, monthListRes]
-    }
-    catch (err) {
-        console.error(err);
-        return []
-    }
-}
 
 
 const TopPollsContainer = async () => {
-    const topPollsLists = await getTopPolls() ?? [];
-    if (topPollsLists && topPollsLists.length < 3) return notFound();
+    const dailyPolls = (await getPolls(dayFetchOptions, 1200)).polls; // every 20 minutes
+    const weeklyPolls = (await getPolls(weekFetchOptions, 14400)).polls; // every 4 hours
+    const monthlyPolls = (await getPolls(monthFetchOptions, 86400)).polls; // every day
 
     return (
 
-        <TopPolls daily={topPollsLists[0]} weekly={topPollsLists[1]} monthly={topPollsLists[2]} />
+        <TopPolls daily={dailyPolls} weekly={weeklyPolls} monthly={monthlyPolls} />
     )
 }
 
