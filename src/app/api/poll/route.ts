@@ -19,6 +19,8 @@ export async function POST(req: Request) {
         const isValidToken = await verifyToken(captchaToken);
         if (!isValidToken) throw new Error("invalid token");
         const emptyZeroArr = Array.from({ length: options.length }).fill(0) as number[];
+
+
         const poll = await prisma.poll.create({
             data: {
                 title: formData.title,
@@ -27,7 +29,7 @@ export async function POST(req: Request) {
                 src: formData.image ?? generateRandomColor(),
                 additionalField: formData.additionalField,
                 options: JSON.stringify(options),
-                type: formData.style === 'tourny' ? 'TOURNY' : 'VOTE',
+                type: formData.style,
                 totalScore: emptyZeroArr,
                 winsCount: emptyZeroArr,
                 totalDuels: emptyZeroArr

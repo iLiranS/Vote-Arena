@@ -12,7 +12,7 @@ export async function PUT(req: Request) {
     try {
 
         const res = await req.json() as PollSubmissionRequest;
-        const { id, results, token, winnerIndex, duels } = res;
+        const { id, results, token, winners, duels } = res;
         if (!id || !results || !token) throw new Error("invalid args");
         const isValidToken = await verifyToken(token);
         if (!isValidToken) throw new Error("invalid token");
@@ -21,8 +21,8 @@ export async function PUT(req: Request) {
         const poll = await prisma.poll.findUnique({ where: { id: id }, select: { id: true, totalScore: true, submissions: true, winsCount: true, totalDuels: true } });
         if (!poll || !poll.totalScore) throw new Error("could not get poll with this id.");
         const { totalScore, submissions, winsCount, totalDuels } = poll;
-        const updatedWinsCount = [...winsCount];
-        updatedWinsCount[winnerIndex]++;
+        let updatedWinsCount = [...winsCount];
+        updatedWinsCount = updatedWinsCount.map((wins, index) => wins + winners[index])
         const updatedTotalScore = totalScore.map((score, index) => score + (results[index] ?? 0));
         let updatedPoll: Poll | null = null;
         // updatedDuels will not change if vote poll

@@ -22,7 +22,7 @@ const shuffleArray = (array: optionPollForm[]) => {
     return array;
 };
 
-const TournyPoll: React.FC<{ poll: Poll, onSubmit: (values: number[], token: string, winnerIndex: number, updatedDuels?: number[]) => Promise<boolean> }> = ({ poll, onSubmit }) => {
+const TournyPoll: React.FC<{ poll: Poll, onSubmit: (values: number[], token: string, winners: number[], updatedDuels?: number[]) => Promise<boolean> }> = ({ poll, onSubmit }) => {
 
     const initialOptions = useMemo(() => {
         const options = typeof poll.options === 'string' ? poll.options : '[]';
@@ -118,7 +118,10 @@ const TournyPoll: React.FC<{ poll: Poll, onSubmit: (values: number[], token: str
         if (!captchaToken || didSubmit) return;
         setDidSubmit(true);
 
-        const isSuccess = await onSubmit(tournyResults.winsCount, captchaToken, winnerIndex, tournyResults.duelCount);
+        const winners = Array.from({ length: initialArr.length }).fill(0) as number[];
+        winners[winnerIndex] = 1;
+
+        const isSuccess = await onSubmit(tournyResults.winsCount, captchaToken, winners, tournyResults.duelCount);
         if (!isSuccess) setDidSubmit(false);
     }
 

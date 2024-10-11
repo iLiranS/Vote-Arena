@@ -46,7 +46,7 @@ export interface PollSubmissionRequest {
     results: number[];
     id: string;
     token: string;
-    winnerIndex: number;
+    winners: number[]; // matching intial options positions array
     duels?: number[]
 }
 
@@ -81,3 +81,6 @@ export interface tournyResult {
     winsCount: number[]
     duelCount: number[]
 }
+
+export type optionMap = { [key: string]: optionPollForm[] };
+

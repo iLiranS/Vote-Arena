@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { formSchema, genreToEmoji, getGenreBackground } from '@/lib/utils'
+import { formSchema, genreToEmoji, getGenreBackground, getPollTypeFromTitle, getTitleFromType } from '@/lib/utils'
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CiImageOn } from "react-icons/ci";
@@ -24,20 +24,22 @@ import Switcher from '../ui/Switcher'
 import { createFormModel, switcherElementProps } from '@/lib/models'
 import PopoverTooltip from '../ui/PopoverTooltip'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
-
+import { PiRankingDuotone } from "react-icons/pi";
 import PollGenreList from '../Polls/PollGenreList'
 import Link from 'next/link'
 
 
+
 // type values (image or video poll)
 const typeSwitcherOptions: switcherElementProps[] = [
-    { title: 'Image', icon: <CiImageOn />, color: 'text-blue-500', bg_color: 'bg-blue-500/20' },
-    { title: 'Video', icon: <MdOutlineOndemandVideo />, color: 'text-green-500', bg_color: 'bg-green-500/20' },
+    { title: 'image', icon: <CiImageOn />, color: 'text-blue-500', bg_color: 'bg-blue-500/20' },
+    { title: 'video', icon: <MdOutlineOndemandVideo />, color: 'text-green-500', bg_color: 'bg-green-500/20' },
 ];
 // style values (vote or duel poll)
-const styleSwitcherOptions: switcherElementProps[] = [
-    { title: 'Vote', icon: <CiBoxList />, color: 'text-blue-500', bg_color: 'bg-blue-500/20' },
+const styleSwitcherOptions: switcherElementProps[] = [ // title mus match util function
+    { title: 'Vote', icon: <PiRankingDuotone />, color: 'text-blue-500', bg_color: 'bg-blue-500/20' },
     { title: 'Tourny', icon: <TbTournament />, color: 'text-green-500', bg_color: 'bg-green-500/20' },
+    { title: 'Tier List', icon: <CiBoxList />, color: 'text-cyan-500', bg_color: 'bg-cyan-500/20', },
     { title: 'Timed Tourny', icon: <IoMdTime />, color: 'text-orange-500', bg_color: 'bg-orange-500/20', disabled: true },
 ];
 // tourny values (random or order)
@@ -64,17 +66,16 @@ const CreateForm: React.FC<{ formValue: createFormModel, submitHandler: (values:
 
     // to avoid weird behavior when changing style but additioanl field remains of old style.
     useEffect(() => {
-        if (formValue.title.length > 0) return;
-        if (style == 'tourny') form.setValue('additionalField', 'random');
+        if (formValue.title.length > 0) return; // if already set up (went back on option page)
+        if (style === 'TOURNY') form.setValue('additionalField', 'random');
         else form.setValue('additionalField', 3);
     }, [style, form, formValue])
 
     // get index from switcher array that matches the input value.
     const getIndexFromValue = (source: switcherElementProps[], value: string) => {
-        const index = source.findIndex((option) => option.title.toLowerCase() == value);
+        const index = source.findIndex((option) => option.title === value);
         return (index > -1 ? index : 0);
     };
-
 
     return (
         <Form {...form}>
@@ -140,6 +141,7 @@ const CreateForm: React.FC<{ formValue: createFormModel, submitHandler: (values:
                 <FormField
                     control={form.control}
                     name='type'
+                    defaultValue='image'
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className='flex items-center gap-1'>Options type <PopoverTooltip
@@ -154,7 +156,7 @@ const CreateForm: React.FC<{ formValue: createFormModel, submitHandler: (values:
                                 <Switcher
                                     activeIndex={getIndexFromValue(typeSwitcherOptions, field.value)}
                                     selecterFunction={(index: number) => {
-                                        field.onChange(typeSwitcherOptions[index].title.toLowerCase());
+                                        field.onChange(typeSwitcherOptions[index].title);
                                     }}
                                     elements={typeSwitcherOptions}
                                 />
@@ -180,9 +182,10 @@ const CreateForm: React.FC<{ formValue: createFormModel, submitHandler: (values:
                                 </ol>} /></FormLabel>
                             <FormControl>
                                 <Switcher
-                                    activeIndex={getIndexFromValue(styleSwitcherOptions, field.value)}
+                                    activeIndex={getIndexFromValue(styleSwitcherOptions, getTitleFromType(field.value))}
                                     selecterFunction={(index: number) => {
-                                        field.onChange(styleSwitcherOptions[index].title.toLowerCase());  // Update the form field with the selected value
+                                        // Update the form field with the selected value
+                                        field.onChange(getPollTypeFromTitle(styleSwitcherOptions[index].title));
                                     }}
                                     elements={styleSwitcherOptions}
                                 />
@@ -193,34 +196,36 @@ const CreateForm: React.FC<{ formValue: createFormModel, submitHandler: (values:
                         </FormItem>
                     )}
                 />
-                <FormField
-                    control={form.control}
-                    name='additionalField'
-                    defaultValue={formValue.additionalField}
-                    render={({ field }) => {
-                        const isTourny = style == 'tourny' ? true : false;
+                {style !== 'TIER_LIST' && style !== 'TIMED_TOURNY' &&
+                    <FormField
+                        control={form.control}
+                        name='additionalField'
+                        defaultValue={formValue.additionalField}
+                        render={({ field }) => {
+                            const isTourny = style == 'TOURNY' ? true : false;
 
-                        return (
-                            <FormItem className='ml-4'>
-                                <FormLabel className='flex items-center gap-1'> {isTourny ? 'Random / Order' : 'Order amount'}  <PopoverTooltip message={isTourny ? <ul className='gap-2 list-disc'><li>Random : options will be against random options</li><li>Order : choose <span className='opacity-60'> (in the next step)</span> the matchups and groups. </li></ul> : 'How many options will get points. (based on their order as well)'} />{ }</FormLabel>
-                                <FormControl>
-                                    {isTourny ?
-                                        <Switcher
-                                            activeIndex={getIndexFromValue(tournySwitchOptions, field.value as "order" | 'random')}
-                                            selecterFunction={(index: number) => {
-                                                field.onChange(tournySwitchOptions[index].title.toLowerCase());  // Update the form field with the selected value
-                                            }}
-                                            elements={tournySwitchOptions}
-                                        />
-                                        : <Input defaultValue={field.value} step={1} max={10} min={1} type='number' onChange={(el) => { field.onChange(parseInt(el.target.value)) }} />}
+                            return (
+                                <FormItem className='ml-4'>
+                                    <FormLabel className='flex items-center gap-1'> {isTourny ? 'Random / Order' : 'Order amount'}  <PopoverTooltip message={isTourny ? <ul className='gap-2 list-disc'><li>Random : options will be against random options</li><li>Order : choose <span className='opacity-60'> (in the next step)</span> the matchups and groups. </li></ul> : 'How many options will get points. (based on their order as well)'} />{ }</FormLabel>
+                                    <FormControl>
+                                        {isTourny ?
+                                            <Switcher
+                                                activeIndex={getIndexFromValue(tournySwitchOptions, field.value as "order" | 'random')}
+                                                selecterFunction={(index) => {
+                                                    field.onChange(tournySwitchOptions[index]);  // Update the form field with the selected value
+                                                }}
+                                                elements={tournySwitchOptions}
+                                            />
+                                            : <Input defaultValue={field.value} step={1} max={10} min={1} type='number' onChange={(el) => { field.onChange(parseInt(el.target.value)) }} />}
 
-                                </FormControl>
+                                    </FormControl>
 
-                                <FormMessage />
-                            </FormItem>
-                        )
-                    }}
-                />
+                                    <FormMessage />
+                                </FormItem>
+                            )
+                        }}
+                    />
+                }
 
                 <section className='w-full flex justify-between items-center'>
                     <Link className='underline underline-offset-2 text-violet-500' target='_blank' href='/about'>More about these options</Link>

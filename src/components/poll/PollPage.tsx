@@ -8,6 +8,7 @@ import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 import { PollSubmissionRequest } from '@/lib/models';
 import TournyPoll from './TournyPoll';
+import TierlistPoll from './Tierlist/TierListPoll';
 
 
 
@@ -26,13 +27,13 @@ const PollPage: React.FC<{ poll: Poll }> = ({ poll }) => {
 
     }, [poll.id])
 
-    const SubmitHandler = async (values: number[], token: string, winnerIndex: number, updatedDuels?: number[]): Promise<boolean> => {
+    const SubmitHandler = async (values: number[], token: string, winners: number[], updatedDuels?: number[]): Promise<boolean> => {
         try {
             const body: PollSubmissionRequest = {
                 results: values,
                 id: poll.id,
                 token,
-                winnerIndex,
+                winners,
                 duels: updatedDuels ?? undefined
             }
 
@@ -67,6 +68,7 @@ const PollPage: React.FC<{ poll: Poll }> = ({ poll }) => {
                 </section>}
             {!didAnswer && !isLoading && poll.type === 'VOTE' ? <VotePoll onSubmit={SubmitHandler} poll={poll} /> : ''}
             {!didAnswer && !isLoading && poll.type === 'TOURNY' ? <TournyPoll onSubmit={SubmitHandler} poll={poll} /> : ''}
+            {!didAnswer && !isLoading && poll.type === 'TIER_LIST' ? <TierlistPoll onSubmit={SubmitHandler} poll={poll} /> : ''}
         </div>
     )
 }

@@ -23,7 +23,7 @@ const page = async ({ params }: { params: { poll_id: string } }) => {
     const totalPoints = poll.totalScore.reduce((a, b) => a + b);
 
 
-    const pollResultItems: PollResultOption[] = (
+    let pollResultItems: PollResultOption[] = (
         typeof poll.options === 'string'
             ? JSON.parse(poll.options)
             : poll.options
@@ -32,16 +32,35 @@ const page = async ({ params }: { params: { poll_id: string } }) => {
             ...option,
             score: poll.totalScore[index],
             winCount: poll.winsCount[index],
-            percent: poll.type === 'VOTE' ? parseFloat(((poll.totalScore[index] / totalPoints) * 100).toFixed(2)) : parseFloat((poll.totalScore[index] / poll.totalDuels[index] * 100).toFixed(2))
-        }))
-        .sort(poll.type === 'VOTE' ? ((a: PollResultOption, b: PollResultOption) => b.score - a.score) : ((a: PollResultOption, b: PollResultOption) => {
+            percent: poll.type === 'TOURNY' ? parseFloat((poll.totalScore[index] / poll.totalDuels[index] * 100).toFixed(2)) : parseFloat(((poll.totalScore[index] / totalPoints) * 100).toFixed(2))
+        }));
+
+
+
+    if (poll.type === 'TOURNY') {
+        pollResultItems = pollResultItems.sort((a: PollResultOption, b: PollResultOption) => {
             // First, sort by winCount in descending order
             if (b.winCount !== a.winCount) {
                 return b.winCount - a.winCount;
             }
             // If winCount is the same, sort by percent in descending order
-            return b.percent - a.percent;
-        }));
+            return b.percent - a.percent; // percent means here duel wons
+        });
+    }
+    if (poll.type === 'TIER_LIST' || poll.type === 'VOTE') {
+        pollResultItems = pollResultItems.sort((a: PollResultOption, b: PollResultOption) => {
+            // First, sort by points in descending order
+            if (b.percent !== a.percent) {
+                return b.percent - a.percent; // points / total points
+            }
+            // If points are the same, sort by win count in descending order
+            return b.winCount - a.winCount; // wins means in tier list : 'S' times and in vote #1 spot
+
+        })
+    }
+
+
+
 
 
 
@@ -53,9 +72,9 @@ const page = async ({ params }: { params: { poll_id: string } }) => {
                 <p className='text-sm text-center'> <span className='opacity-70'>Results of</span> <span className='text-violet-400 font-bold mx-1'>{poll.submissions}</span> <span className='opacity-70'>submissions</span></p>
                 <GenreLink className='bg-card' genre={poll.genre} />
             </section>
-            <p className='opacity-50 text-xs'>results might take up to<span className='font-semibold'>5</span> minutes to be updated.</p>
+            <p className='opacity-50 text-xs'>results might take up to <span className='font-semibold'>5</span> minutes to be updated.</p>
             <ol className='flex flex-col gap-2 pb-2'>
-                {pollResultItems.map((el, index) => <PollResultItem tourny={poll.type === 'TOURNY'} index={index} submissions={poll.submissions} key={el.title} resultOption={el} />)}
+                {pollResultItems.map((el, index) => <PollResultItem pollType={poll.type} index={index} submissions={poll.submissions} key={el.title} resultOption={el} />)}
             </ol>
         </div>
     )

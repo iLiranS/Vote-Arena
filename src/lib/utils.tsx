@@ -1,4 +1,4 @@
-import { Genre, Poll } from "@prisma/client"
+import { Genre, Poll, PollType } from "@prisma/client"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { z } from "zod"
@@ -7,6 +7,10 @@ import { MdCatchingPokemon } from "react-icons/md";
 import { FaBaseball, FaShirt } from "react-icons/fa6";
 import { optionPollForm, tournyResult } from "./models";
 import { bracketMatch } from "@/components/poll/Bracket/BracketModels";
+import { CiBoxList } from "react-icons/ci";
+import { TbTournament } from "react-icons/tb";
+import { PiRankingDuotone } from "react-icons/pi";
+import { IoMdTime } from "react-icons/io";
 // zod 
 
 
@@ -14,7 +18,7 @@ export const formSchema = z.object({
   title: z.string().trim().min(2).max(40),
   type: z.enum(["video", "image"]).default('image'),
   image: z.optional(z.string().trim().url()).refine((val) => { return (val ? isImage(val as string) : true) }, { message: 'Source must be a valid image file (jpeg, jpg, gif, png, webp, bmp, svg)' }),
-  style: z.enum(["vote", "tourny"]).default('vote'),
+  style: z.nativeEnum(PollType).default('VOTE'),
   genre: z.enum(["ANIMALS", "ANIME", "ART", "BOOKS", "FOOD", "GAMING", "TV", "SPORT", "MUSIC", "NATURE", "TECH", "TRAVEL", "STYLE", "OTHER"]),
   additionalField: z.union([
     z.number().min(1).max(10).int(),
@@ -338,6 +342,27 @@ export const getTournyResults = (stages: bracketMatch[][], initialArray: optionP
   return { winsCount, duelCount };
 };
 
-// testing
-
-
+export const getTitleFromType = (title: PollType): string => {
+  switch (title) {
+    case 'TIER_LIST': return 'Tier List';
+    case 'TOURNY': return 'Tourny';
+    case 'VOTE': return 'Vote';
+    default: return 'Timed Tourny';
+  }
+}
+export const getPollTypeFromTitle = (title: string): PollType => {
+  switch (title) {
+    case 'Tier List': return 'TIER_LIST'
+    case 'Tourny': return 'TOURNY'
+    case 'Vote': return 'VOTE'
+    default: return 'TIMED_TOURNY'
+  }
+}
+export const getPollIconFromType = (type: PollType): JSX.Element => {
+  switch (type) {
+    case 'TIER_LIST': return <CiBoxList />;
+    case 'TOURNY': return <TbTournament />;
+    case 'VOTE': return <PiRankingDuotone />;
+    default: return <IoMdTime />;
+  }
+}

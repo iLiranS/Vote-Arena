@@ -9,7 +9,7 @@ import { useTheme } from 'next-themes';
 import PollOrderContainer from './PollOrderContainer'
 
 
-const VotePoll: React.FC<{ poll: Poll, onSubmit: (values: number[], token: string, winnerIndex: number) => Promise<boolean> }> = ({ poll, onSubmit }) => {
+const VotePoll: React.FC<{ poll: Poll, onSubmit: (values: number[], token: string, winners: number[]) => Promise<boolean> }> = ({ poll, onSubmit }) => {
     const topAmount = poll.additionalField as number;
     const siteKey = process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY ?? '';
     const theme = useTheme();
@@ -52,7 +52,9 @@ const VotePoll: React.FC<{ poll: Poll, onSubmit: (values: number[], token: strin
             }
             resArr[indexInInitial] = result;
         }
-        const isSuccess = await onSubmit(resArr, captchaToken, winnerIndex);
+        const winners = Array.from({ length: initialArr.length }).fill(0) as number[];
+        winners[winnerIndex] = 1;
+        const isSuccess = await onSubmit(resArr, captchaToken, winners);
         if (!isSuccess) {
             setDidSubmit(false);
         }

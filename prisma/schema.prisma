@@ -38,6 +38,8 @@ enum Genre {
 enum PollType {
   VOTE
   TOURNY
+  TIER_LIST
+  TIMED_TOURNY
 }
 
 model Poll {

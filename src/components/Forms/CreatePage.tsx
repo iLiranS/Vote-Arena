@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
 const formValueDefault: createFormModel = {
     title: "",
     type: "image",
-    style: "vote",
+    style: "VOTE",
     genre: 'OTHER',
     additionalField: 3,
     image: undefined,
@@ -95,12 +95,13 @@ const CreatePage = () => {
         setCurrentType(formValue.type);
         setOptions([]);
     }
+    console.log(formValue.style)
 
     return (
         <CardContainer className='h-max w-full overflow-hidden'>
             {step == 0 ? <CreateForm formValue={formValue} submitHandler={updateFormValue} />
                 :
-                <CreateOptions top={formValue.style === 'vote' ? formValue.additionalField as number : 0} pending={pending} showOrder={formValue.additionalField === 'order'} key={options.length} type={formValue.type} formStyle={formValue.style} onBack={onBackHandler} onCreate={createPoll} initialOptions={options} />
+                <CreateOptions top={formValue.style === 'VOTE' ? formValue.additionalField as number : 0} pending={pending} showOrder={formValue.additionalField === 'order'} key={options.length} type={formValue.type} formStyle={formValue.style} onBack={onBackHandler} onCreate={createPoll} initialOptions={options} />
             }
             {showChangeAlert && <AlertDialogPop title={`Change type from ${currentType} to ${formValue.type}?`} message='all the options will be gone !' onCancel={onCancelChangeTypeHandler} onContinue={onContinueChangeTypeHandler} />}
         </CardContainer>

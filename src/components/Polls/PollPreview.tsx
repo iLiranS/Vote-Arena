@@ -1,8 +1,7 @@
 import { previewPoll } from '@/lib/models';
-import { isImage } from '@/lib/utils';
+import { getPollIconFromType, isImage } from '@/lib/utils';
 import React from 'react'
-import { FaUsers, FaList } from 'react-icons/fa'
-import { TbTournament } from "react-icons/tb";
+import { FaUsers } from 'react-icons/fa'
 import GenreLink from './GenreLink';
 import Link from 'next/link';
 
@@ -13,7 +12,7 @@ const PollPreview: React.FC<{ poll: previewPoll }> = ({ poll }) => {
     const hasSrc = isImage(poll.src)
 
 
-
+    const pollIcon = getPollIconFromType(poll.type);
 
 
     return (
@@ -39,7 +38,7 @@ const PollPreview: React.FC<{ poll: previewPoll }> = ({ poll }) => {
                 </div>
 
                 <div className='grid place-items-center rounded-md px-[6px] bg-slate-900/20 backdrop-blur-md'>
-                    {poll.type === 'TOURNY' ? <TbTournament /> : <FaList />}
+                    {pollIcon}
                 </div>
 
 

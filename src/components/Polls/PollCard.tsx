@@ -1,7 +1,7 @@
-import { isImage } from '@/lib/utils';
+import { getPollIconFromType, isImage } from '@/lib/utils';
 import React from 'react'
-import { FaList, FaUsers } from 'react-icons/fa'
-import { TbClick, TbTournament } from "react-icons/tb";
+import { FaUsers } from 'react-icons/fa'
+import { TbClick } from "react-icons/tb";
 import GenreLink from './GenreLink';
 import Link from 'next/link';
 import { previewPoll } from '@/lib/models';
@@ -10,6 +10,7 @@ import { previewPoll } from '@/lib/models';
 const PollCard: React.FC<{ poll: previewPoll }> = ({ poll }) => {
 
     const hasSrc = isImage(poll.src)
+    const typeIcon = getPollIconFromType(poll.type);
 
     return (
         <li style={{ backgroundColor: hasSrc ? undefined : poll.src }} className=' h-full rounded-md  w-full list-none relative flex select-none text-white'>
@@ -34,7 +35,7 @@ const PollCard: React.FC<{ poll: previewPoll }> = ({ poll }) => {
 
                     <section className='flex items-center gap-2'>
                         <p>{poll.type.toLowerCase()}</p>
-                        {poll.type === 'TOURNY' ? <TbTournament /> : <FaList />}
+                        {typeIcon}
                     </section>
 
 

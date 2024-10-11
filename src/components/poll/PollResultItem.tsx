@@ -3,11 +3,23 @@ import { extractYouTubeId, getHotLevelColor } from '@/lib/utils'
 import React from 'react'
 import PopoverTooltip from '../ui/PopoverTooltip';
 import { CiMedal } from 'react-icons/ci';
-const PollResultItem: React.FC<{ resultOption: PollResultOption, submissions: number, index: number, tourny?: boolean }> = ({ resultOption, submissions, index, tourny }) => {
+import { PollType } from '@prisma/client';
+const PollResultItem: React.FC<{ resultOption: PollResultOption, submissions: number, index: number, pollType: PollType }> = ({ resultOption, submissions, index, pollType }) => {
     const winPercentage = resultOption.winCount / submissions * 100;
-    // ${index == 0 && 'text-yellow-500 dark:text-yellow-400'} ${index == 1 && 'text-slate-500 dark:text-slate-300'} ${index == 2 && 'text-amber-700'}`}
-    // { '--bg_color': bg_color } as React.CSSProperties
+
     const top = index + 1;
+
+    let tooltipMessageResults = ''
+    switch (pollType) {
+        case 'VOTE':
+        case 'TIER_LIST':
+            tooltipMessageResults = 'points / total points'
+            break;
+        default:
+            tooltipMessageResults = 'duels win rate';
+    }
+    const toolTipWinMessage = pollType === 'TIER_LIST' ? '# of S rates / total submissons' : 'wins / total submissons'
+
     return (
         <li className={` flex gap-1`}>
             <section className='items-center flex '>
@@ -34,7 +46,7 @@ const PollResultItem: React.FC<{ resultOption: PollResultOption, submissions: nu
                                 </section>
                                 <div style={{ backgroundColor: getHotLevelColor(resultOption.percent), '--width_target': resultOption.percent + "%" } as React.CSSProperties} className={`absolute transition-all  left-0 top-0 h-full rounded-l-sm resultProgress`}></div>
                             </div>
-                            <PopoverTooltip className='text-xs' message={tourny ? 'duels win rate' : 'points / total points'} />
+                            <PopoverTooltip className='text-xs' message={tooltipMessageResults} />
                         </div>
 
                         <div className='flex gap-1 items-center'>
@@ -46,7 +58,7 @@ const PollResultItem: React.FC<{ resultOption: PollResultOption, submissions: nu
                                 </section>
                                 <div style={{ '--width_target': winPercentage + "%", backgroundColor: getHotLevelColor(winPercentage) } as React.CSSProperties} className={`absolute left-0 top-0 h-full rounded-l-sm resultProgress`}></div>
                             </div>
-                            <PopoverTooltip className='text-xs' message='wins / total submissions' />
+                            <PopoverTooltip className='text-xs' message={toolTipWinMessage} />
                         </div>
 
 

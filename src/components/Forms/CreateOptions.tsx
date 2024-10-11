@@ -9,8 +9,9 @@ import PopoverTooltip from '../ui/PopoverTooltip';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
+import { PollType } from '@prisma/client';
 
-const CreateOptions: React.FC<{ onBack: (options: createOptionFormModel[]) => void, onCreate: (options: createOptionFormModel[], token: string) => void, initialOptions: createOptionFormModel[], formStyle: 'vote' | 'tourny', type: 'video' | 'image', showOrder: boolean, pending: boolean, top: number }> = ({ onBack, onCreate, initialOptions, formStyle, type, showOrder, pending, top }) => {
+const CreateOptions: React.FC<{ onBack: (options: createOptionFormModel[]) => void, onCreate: (options: createOptionFormModel[], token: string) => void, initialOptions: createOptionFormModel[], formStyle: PollType, type: 'video' | 'image', showOrder: boolean, pending: boolean, top: number }> = ({ onBack, onCreate, initialOptions, formStyle, type, showOrder, pending, top }) => {
     const [options, setOptions] = useState(initialOptions);
     const [warning, setWarning] = useState<string | null>(null);
     const theme = useTheme();
@@ -25,7 +26,7 @@ const CreateOptions: React.FC<{ onBack: (options: createOptionFormModel[]) => vo
             return false;
         }
         // if not even in tourny set warning.
-        if (formStyle === 'tourny' && (options.length & (options.length - 1)) != 0) {
+        if (formStyle === 'TOURNY' && (options.length & (options.length - 1)) != 0) {
             // if power of 2, binary format : 10000... , susbtract 1 and we get 0111111 and if the binary difference not 0, then not power of 2.
             setWarning('In tournamnet mode, must have power of 2 elements! {2,4,8,...,64}')
             return false;
@@ -34,7 +35,7 @@ const CreateOptions: React.FC<{ onBack: (options: createOptionFormModel[]) => vo
             setWarning("please verify captcha challenge");
             return false;
         }
-        if (formStyle === 'vote' && options.length < top) {
+        if (formStyle === 'VOTE' && options.length < top) {
             setWarning("Must have at least " + top + " options to match your poll structure.");
             return false;
         }
