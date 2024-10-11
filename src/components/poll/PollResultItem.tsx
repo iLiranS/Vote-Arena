@@ -20,6 +20,7 @@ const PollResultItem: React.FC<{ resultOption: PollResultOption, submissions: nu
     }
     const toolTipWinMessage = pollType === 'TIER_LIST' ? '# of S rates / total submissons' : 'wins / total submissons'
 
+
     return (
         <li className={` flex gap-1`}>
             <section className='items-center flex '>
@@ -42,7 +43,7 @@ const PollResultItem: React.FC<{ resultOption: PollResultOption, submissions: nu
                             <div className='flex items-center gap-2 xs:w-[150px] w-[100px] bg-popover h-[30px] relative rounded-sm px-1 overflow-hidden'>
                                 <section className='flex items-center  justify-between gap-1 w-full z-10'>
                                     <p>🎯</p>
-                                    <p>{resultOption.percent}%</p>
+                                    <p>{pollType === 'TIER_LIST' ? resultOption.score : `${resultOption.percent}%`}</p>
                                 </section>
                                 <div style={{ backgroundColor: getHotLevelColor(resultOption.percent), '--width_target': resultOption.percent + "%" } as React.CSSProperties} className={`absolute transition-all  left-0 top-0 h-full rounded-l-sm resultProgress`}></div>
                             </div>
