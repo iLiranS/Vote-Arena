@@ -16,7 +16,7 @@ const Bracket: React.FC<{ stages: bracketMatch[][], totalOptions: number }> = ({
     const updateActiveIdHandler = (title: string) => setActiveItemTitle(title);
 
     return (
-        <ul className='flex gap-8 w-full h-max p-2 overflow-auto relative '>
+        <ul className='flex gap-12 w-full h-max p-2 overflow-auto relative'>
             {stages.map((stage, index) => <Stage currentStage={index} activeItemTitle={activeItemTitle} onActiveItemChange={updateActiveIdHandler} name={stagesNames[index]} stageMatches={stages[index]} key={index.toString()} />)}
         </ul>
     )

@@ -358,6 +358,15 @@ export const getPollTypeFromTitle = (title: string): PollType => {
     default: return 'TIMED_TOURNY'
   }
 }
+export const getPollTitleFromType = (title: PollType): string => {
+  switch (title) {
+    case 'TIER_LIST': return 'Tier List'
+    case 'TOURNY': return 'Tourny'
+    case 'VOTE': return 'Vote'
+    default: return 'Timed'
+  }
+}
+
 export const getPollIconFromType = (type: PollType): JSX.Element => {
   switch (type) {
     case 'TIER_LIST': return <CiBoxList />;

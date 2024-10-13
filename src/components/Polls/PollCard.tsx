@@ -1,4 +1,4 @@
-import { getPollIconFromType, isImage } from '@/lib/utils';
+import { getPollIconFromType, getPollTitleFromType, isImage } from '@/lib/utils';
 import React from 'react'
 import { FaUsers } from 'react-icons/fa'
 import { TbClick } from "react-icons/tb";
@@ -34,7 +34,7 @@ const PollCard: React.FC<{ poll: previewPoll }> = ({ poll }) => {
                     </section>
 
                     <section className='flex items-center gap-2'>
-                        <p>{poll.type.toLowerCase()}</p>
+                        <p>{getPollTitleFromType(poll.type)}</p>
                         {typeIcon}
                     </section>
 
