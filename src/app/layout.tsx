@@ -13,7 +13,7 @@ const outfit = Outfit({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: "Vote Arena - Home",
-  description: "Home page for Vote Arena",
+  description: "Free Platform to Create,Explore and Share Polls, Tournaments and Tier lists!",
 };
 
 export default function RootLayout({
