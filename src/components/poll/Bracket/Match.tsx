@@ -9,10 +9,19 @@ const Match: React.FC<{ matchProps: bracketMatch, onActiveItemChange: (id: strin
             <MatchItem index={0} winnerTitle={matchProps.winnerTitle} activeItemTitle={activeItemTitle} onActiveItemChange={onActiveItemChange} itemProps={matchProps.first} />
             <MatchItem index={1} winnerTitle={matchProps.winnerTitle} activeItemTitle={activeItemTitle} onActiveItemChange={onActiveItemChange} itemProps={matchProps.second} />
 
-            <div className={`absolute top-1/2  bg-border h-[2px] -translate-y-1/2 ${stage === 0 && !isLastStageMatch && 'left-0 w-[calc(100%_+26px)]'} ${stage !== 0 && !isLastStageMatch && ' -left-6 w-[calc(100%_+50px)]'} ${isLastStageMatch && '-left-6 w-[calc(100%_+24px)]'}`}></div>
+            <div className={`absolute top-1/2  bg-border h-[2px] -translate-y-1/2 ${stage === 0 && !isLastStageMatch && 'left-0 w-[calc(100%_+26px)]'} ${stage !== 0 && !isLastStageMatch && ' left-0 w-[calc(100%_+26px)]'} ${isLastStageMatch && 'left-0 w-full'}`}></div>
 
-            <div style={{ height: (prevStageMargin) + 80 + 'px' }} className={`absolute -left-6 w-[2px] bg-border top-1/2 -translate-y-1/2`}></div>
+            {stage != 0 &&
+                <>
+                    {/* upper part */}
+                    <div className='absolute top-1/4 -translate-y-1/2 h-[2px] w-[24px] -translate-x-full bg-border'></div>
+                    <div style={{ height: (prevStageMargin / 2) + 20 + 'px', translate: `0 calc(-100% + 20px)` }} className={`absolute -left-6 w-[2px] bg-border top-0 `}></div>
 
+                    {/* lower part */}
+                    <div className='absolute bottom-1/4 -translate-y-1/2 h-[2px] w-[24px] -translate-x-full bg-border'></div>
+                    <div style={{ height: (prevStageMargin / 2) + 22 + 'px', translate: `0 calc(100% - 22px)` }} className={`absolute -left-6 w-[2px] bg-border bottom-0 `}></div>
+                </>
+            }
         </li>
     )
 }

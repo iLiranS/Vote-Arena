@@ -41,7 +41,7 @@ const page = () => {
                 <p >Random : options will be against random options <span className='text-sm'>(randomized once)</span>.</p>
                 <p > Order : the creator will choose the matchups and groups.</p>
                 <img src="https://i.ibb.co/BBff8JV/image.png" className='border-2  h-[250px] mx-auto' alt="tournament selection image" />
-                <img src="https://i.ibb.co/Ns2vGCn/image.png" className='border-2  h-[250px] mx-auto mt-2' alt="brackets image" />
+                <img src="https://i.ibb.co/f41L3Mh/image.png" className='border-2  h-[250px] mx-auto mt-2' alt="brackets image" />
             </div>
             <p className='font-semibold'>Tier list</p>
             <div className='pl-2 relative opacity-80'>
