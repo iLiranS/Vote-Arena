@@ -8,6 +8,7 @@ import TopPollsContainer from "@/components/Polls/TopPollsContainer";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import SuggestedPollsContainer from "@/components/Polls/SuggestedPollsContainer";
+import { Button } from "@/components/ui/button";
 
 
 
@@ -21,21 +22,23 @@ export default function Home() {
           <Illustration1 className=' -translate-y-[20%] -translate-x-[140px] xl:-translate-x-12  lg:scale-[0.35] scale-[0.25]' />
         </div>
         <section className="flex flex-col h-full w-max max-w-full mx-auto justify-center  gap-1 z-10">
-          <h1 className="text-4xl md:text-6xl font-bold text-center">The Hottest</h1>
-          <h1 className="text-4xl md:text-6xl font-bold text-center"> <span className="text-red-500">Polling</span> Platform</h1>
+          <h1 className="text-4xl md:text-6xl font-bold text-center">The Hottest <br /> <span className="text-red-500">Polling</span> Platform</h1>
+          {/* <h1 className="text-4xl md:text-6xl font-bold text-center"> </h1> */}
           <section className=" shadow-red-500 shadow-md text-sm rounded-md bg-popover/80 w-fit px-2 py-1 self-center my-2 "> <p className="opacity-80">Create, Share, and Discover Engaging Polls!</p></section>
           <ol className="olTest  gap-1 flex flex-col mt-2 md:pl-0 pl-6">
-            <li ><p className="inline" ><span className="font-semibold">Create your own polls </span> <span className="opacity-70">and share it with others.</span> </p></li>
-            <li ><p className="inline"><span className="font-semibold">Different Polls styles </span> <span className="opacity-70">Tournament mode / order by most favorite.</span></p></li>
-            <li ><p className="inline"> <span className="font-semibold">Poll stats </span>  <span className="opacity-70">so you can compare your results with others.</span> </p></li>
+            <li ><p className="inline" ><span className="font-semibold">Create</span> <span className="opacity-70">explore and share your favorite polls!</span> </p></li>
+            <li ><p className="inline"><span className="font-semibold">Different types </span> <span className="opacity-70">of polls : Tournaments / Tier lists / Ranking and more to come! </span></p></li>
+            <li ><p className="inline"> <span className="font-semibold">Results</span>  <span className="opacity-70">page with detailed analytics for each poll.</span> </p></li>
           </ol>
-          <div className="flex items-center gap-4 w-full justify-center my-6">
+          <div className="flex flex-col items-center gap-2 w-full justify-center mb-6">
+            <p className="opacity-60 text-xs">{`Free, easy, and takes a few minutes!`}</p>
 
-
-            <Link className="flex items-center gap-2 bg-red-500 text-white hover:bg-red-600 rounded-md p-2" href={'/create'}>
-              <p>Create a poll</p>
-              <IoCreateOutline />
-            </Link>
+            <Button className="flex items-center gap-2 bg-red-500 text-white hover:bg-red-600 border-2 border-black" asChild>
+              <Link href={'/create'}>
+                <p>Create a poll</p>
+                <IoCreateOutline />
+              </Link>
+            </Button>
           </div>
 
         </section>

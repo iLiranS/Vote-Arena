@@ -11,7 +11,7 @@ const VoteItem: React.FC<{ option: optionPollForm, top: number, topAmount: numbe
     const controls = useDragControls()
 
     return (
-        <Reorder.Item dragControls={controls} dragListener={false} value={option} className='grid grid-cols-[25px,1fr,max-content] items-center reorderItem'>
+        <Reorder.Item dragControls={controls} dragListener={false} value={option} className='grid grid-cols-[25px,1fr,max-content] gap-2 items-center reorderItem'>
             <section className='items-center flex '>
                 {top <= topAmount && top <= 3 && <CiMedal className={`text-lg ${top == 1 && 'text-yellow-500 dark:text-yellow-400'} ${top == 2 && 'text-slate-500 dark:text-slate-300'} ${top == 3 && 'text-amber-700'}`} />}
                 {top <= topAmount && top >= 4 && <section className='p-1 aspect-square grid place-items-center'><p className='opacity-60'>{top}</p></section>}
@@ -24,7 +24,7 @@ const VoteItem: React.FC<{ option: optionPollForm, top: number, topAmount: numbe
 
                 }
             </div>
-            <Button onClick={(e) => { e.preventDefault() }} style={{ touchAction: 'none' }} size='icon' variant='ghost' className='bg-inherit hover:bg-inherit opacity-80 text-lg' onPointerDown={(e) => controls.start(e)}><MdDragIndicator /></Button>
+            <Button onClick={(e) => { e.preventDefault() }} style={{ touchAction: 'none' }} size='icon' variant='secondary' className='text-lg active:bg-foreground/20' onPointerDown={(e) => controls.start(e)}><MdDragIndicator /></Button>
         </Reorder.Item>
     )
 }

@@ -9,7 +9,7 @@ import { CiBoxList } from "react-icons/ci";
 import { TbTournament } from "react-icons/tb";
 import { FaRandom } from "react-icons/fa";
 import { GoListOrdered } from "react-icons/go";
-import { IoMdTime } from "react-icons/io";
+// import { IoMdTime } from "react-icons/io";
 import { Button } from '../ui/button'
 import {
     Form,
@@ -40,7 +40,7 @@ const styleSwitcherOptions: switcherElementProps[] = [ // title mus match util f
     { title: 'Vote', icon: <PiRankingDuotone />, color: 'text-blue-500', bg_color: 'bg-blue-500/20' },
     { title: 'Tourny', icon: <TbTournament />, color: 'text-green-500', bg_color: 'bg-green-500/20' },
     { title: 'Tier List', icon: <CiBoxList />, color: 'text-cyan-500', bg_color: 'bg-cyan-500/20', },
-    { title: 'Timed Tourny', icon: <IoMdTime />, color: 'text-orange-500', bg_color: 'bg-orange-500/20', disabled: true },
+    // { title: 'Timed Tourny', icon: <IoMdTime />, color: 'text-orange-500', bg_color: 'bg-orange-500/20', disabled: true },
 ];
 // tourny values (random or order)
 const tournySwitchOptions: switcherElementProps[] = [

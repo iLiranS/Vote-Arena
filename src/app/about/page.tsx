@@ -40,7 +40,15 @@ const page = () => {
                 <p>Single-elimination tournament</p>
                 <p >Random : options will be against random options <span className='text-sm'>(randomized once)</span>.</p>
                 <p > Order : the creator will choose the matchups and groups.</p>
-                <img src="https://i.ibb.co/s1zqC32/image.png" className='border-2  h-[250px] mx-auto' alt="" />
+                <img src="https://i.ibb.co/BBff8JV/image.png" className='border-2  h-[250px] mx-auto' alt="tournament selection image" />
+                <img src="https://i.ibb.co/Ns2vGCn/image.png" className='border-2  h-[250px] mx-auto mt-2' alt="brackets image" />
+            </div>
+            <p className='font-semibold'>Tier list</p>
+            <div className='pl-2 relative opacity-80'>
+                <p>Drag the list item into your desired place</p>
+                <p >depend on Each ranking : S,A,B,C,D the item will get different points.</p>
+                <p>S : 10 points, A : 5 points , B : 3 points , C : 2 points , D : 1 points. <br /> <span className='text-sm opacity-70'>you can keep the item in the list area and it will get 0 points.</span></p>
+                <img src="https://i.ibb.co/6mZzm81/image.png" className='border-2  h-[250px] mx-auto' alt="tier list image" />
             </div>
 
 
@@ -57,8 +65,7 @@ const page = () => {
             </p>
             <h3 className='text-lg font-semibold'>Poll comments</h3>
             <p className='opacity-80'>I will add soon enough an option to add comment to polls, which can be viewed in the poll results page.</p>
-            <h3 className='text-lg font-semibold'>Tier lists</h3>
-            <p className='opacity-80'>A kind of a poll where you order by group ranks.</p>
+
 
 
         </CardContainer>
