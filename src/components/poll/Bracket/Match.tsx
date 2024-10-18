@@ -19,11 +19,11 @@ const Match: React.FC<{ matchProps: bracketMatch, onActiveItemChange: (id: strin
             {stage != 0 &&
                 <>
                     {/* upper part */}
-                    <div className={`absolute top-1/4 -translate-y-1/2 h-[2px] w-[24px] -translate-x-full ${isFirstItemActive ? 'bg-violet-500' : 'bg-border'} `}></div>
+                    <div className={`absolute top-1/4 -translate-y-1/2 h-[2px] scale-y-[1.2] w-[24px] -translate-x-full ${isFirstItemActive ? 'bg-violet-500' : 'bg-border'} `}></div>
                     <div style={{ height: (prevStageMargin / 2) + 20 + 'px', translate: `0 calc(-100% + 20px)` }} className={`absolute -left-6 w-[2px] ${isFirstItemActive ? 'bg-violet-500' : 'bg-border'} top-0 `}></div>
 
                     {/* lower part */}
-                    <div className={`absolute bottom-1/4 -translate-y-1/2 h-[2px] w-[24px] -translate-x-full ${isSecondItemActive ? 'bg-violet-500' : 'bg-border'}`}></div>
+                    <div className={`absolute bottom-1/4 scale-y-[1.2] -translate-y-1/2 h-[2px] w-[24px] -translate-x-full ${isSecondItemActive ? 'bg-violet-500' : 'bg-border'}`}></div>
                     <div style={{ height: (prevStageMargin / 2) + 22 + 'px', translate: `0 calc(100% - 22px)` }} className={`absolute -left-6 w-[2px] ${isSecondItemActive ? 'bg-violet-500' : 'bg-border'} bottom-0 `}></div>
                 </>
             }
