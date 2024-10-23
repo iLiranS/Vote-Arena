@@ -19,7 +19,11 @@ export async function GET(req: Request) {
                 },
             },
         })
-        revalidatePath('/'); // revalidate all polls.
+        console.log(`deleted : ` + deletedPolls.count + ' polls [cron job]', { status: 200 });
+        if (deletedPolls.count > 0) {
+            // revalidate all polls.
+            revalidatePath('/', 'layout');
+        }
         return NextResponse.json(`deleted : ` + deletedPolls.count + ' polls [cron job]', { status: 200 })
     } catch (err) {
         console.error(err)

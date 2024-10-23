@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const allowedOrigins = ['https://www.votearena.online', 'https://www.votearena.vercel.app']
+const allowedOrigins = [
+    'https://www.votearena.online',
+    'https://www.votearena.vercel.app'
+]
+
+const allowedCrawlers = [
+    'Googlebot',  // Google crawler
+    'Bingbot',    // Bing crawler
+    'DuckDuckBot' // DuckDuckGo crawler
+]
 
 const corsOptions = {
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -8,28 +17,39 @@ const corsOptions = {
 }
 
 export function middleware(request: NextRequest) {
-    // Check the origin from the request
     const origin = request.headers.get('origin') ?? ''
+    const userAgent = request.headers.get('user-agent') ?? ''
     const isAllowedOrigin = allowedOrigins.includes(origin)
 
-    // Handle preflighted requests
-    const isPreflight = request.method === 'OPTIONS'
+    // Allow if the request is from an allowed origin
+    if (isAllowedOrigin) {
+        return handleCors(request, origin)
+    }
 
+    // Allow known search engine crawlers
+    if (allowedCrawlers.some(crawler => userAgent.includes(crawler))) {
+        return handleCors(request, '*') // Allow access for crawlers
+    }
+
+    // Handle preflight requests
+    const isPreflight = request.method === 'OPTIONS'
     if (isPreflight) {
-        const preflightHeaders = {
-            ...(isAllowedOrigin && { 'Access-Control-Allow-Origin': origin }),
-            ...corsOptions,
+        const preflightHeaders: Record<string, string> = { ...corsOptions }
+
+        if (isAllowedOrigin) {
+            preflightHeaders['Access-Control-Allow-Origin'] = origin
         }
         return NextResponse.json({}, { headers: preflightHeaders })
     }
 
-    // Handle simple requests
+    // Block all other origins
+    return new NextResponse('Forbidden', { status: 403 })
+}
+
+function handleCors(request: NextRequest, origin: string) {
     const response = NextResponse.next()
 
-    if (isAllowedOrigin) {
-        response.headers.set('Access-Control-Allow-Origin', origin)
-    }
-
+    response.headers.set('Access-Control-Allow-Origin', origin)
     Object.entries(corsOptions).forEach(([key, value]) => {
         response.headers.set(key, value)
     })
