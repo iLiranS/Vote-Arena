@@ -25,10 +25,10 @@ const page = () => {
                 <Link className='text-violet-400 bg-violet-400/20 px-1 rounded-md ml-1' href={'https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage'}>Local Storage</Link>
             </section>
             <h2 className='text-xl text-red-500 font-semibold bg-red-500/20 rounded-md w-fit px-2 '>Term Of Service</h2>
-            <section className='flex gap-2 items-center flex-col'>
-                <p className='text-orange-400 bg-orange-400/20 px-1 rounded-md ml-1 w-fit self-center'>TLDR</p>
+            <section className='flex gap-2 items-center flex-col bg-orange-400/20 px-1 rounded-md'>
+                <p className='text-orange-400  ml-1 w-fit self-center'>TLDR</p>
                 <p>Dont upload NSFW/harmful/unallowed content, use the website as it should be, for fun.</p>
-                <p className='text-orange-400 border-orange-400/20 border-2 px-1 rounded-md ml-1 w-fit self-center'>Polls will be deleted automatically after 30 days.</p>
+                {/* <p className='text-orange-400 border-orange-400/20 border-2 px-1 rounded-md ml-1 w-fit self-center'>Polls will be deleted automatically after 30 days.</p> */}
             </section>
             <p className='opacity-80 my-2'>
                 Welcome to Vote Arena. By accessing or using Vote Arena, you agree to abide by the following Terms of Service (the Terms). These Terms apply to all users of the site. Please read them carefully before using the site.

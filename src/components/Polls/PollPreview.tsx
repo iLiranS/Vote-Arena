@@ -34,7 +34,7 @@ const PollPreview: React.FC<{ poll: previewPoll }> = ({ poll }) => {
 
 
                 <div className='grid place-items-center z-10 w-fit' >
-                    <GenreLink genre={poll.genre} className={` ${hasSrc ? 'bg-slate-900/20 backdrop-blur-md hover:bg-slate-800/10' : 'bg-slate-900 hover:bg-slate-800'}`} />
+                    <GenreLink genre={poll.genre} className={` ${hasSrc ? 'bg-slate-900/20 backdrop-blur-md hover:bg-slate-800/70' : 'bg-slate-900 hover:bg-slate-800'}`} />
                 </div>
 
                 <div className='grid place-items-center rounded-md px-[6px] bg-slate-900/20 backdrop-blur-md'>

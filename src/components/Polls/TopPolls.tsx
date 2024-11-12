@@ -31,7 +31,7 @@ const monthSwitch: switcherElementProps = {
 
 const TopPolls: React.FC<{ daily: previewPoll[], weekly: previewPoll[], monthly: previewPoll[] }> = ({ daily, weekly, monthly }) => {
 
-    const [activeIndex, setActiveIndex] = useState(0);
+    const [activeIndex, setActiveIndex] = useState(2);
 
     const updateActiveIndexHandler = (val: number) => setActiveIndex(val);
 

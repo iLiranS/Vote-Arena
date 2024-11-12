@@ -17,11 +17,11 @@ const page = () => {
             <div className='text-center'>Please respect the <Link className='text-violet-400 bg-violet-400/20 px-1 rounded-md' href="/privacy">TOS</Link> </div>
             <h2 className='text-xl text-red-500 font-semibold bg-red-500/20 rounded-md w-fit px-2'>The Project</h2>
             <p className='opacity-80'>The purpose of this website is to create,share and explore cool polls with others.</p>
-            <div>  <span className='opacity-80'>I have some cool ideas for the </span><Link className='text-violet-400 bg-violet-400/20 px-1 rounded-md' href="#future">future</Link> <span className='opacity-80'>such as ordered timed poll.</span>  </div>
-            <p className='opacity-80'>All the polls will be <span className='font-semibold text-red-500'>DELETED</span> 30 days after being created.
+            <div>  <span className='opacity-80'>I have some cool ideas for the </span><Link className='text-violet-400 bg-violet-400/20 px-1 rounded-md' href="#future">#future</Link> <span className='opacity-80'>such as ordered timed poll.</span>  </div>
+            {/* <p className='opacity-80'>All the polls will be <span className='font-semibold text-red-500'>DELETED</span> 30 days after being created.
                 This is a hobby project which uses free database and hosting platforms, and I do not plan currently to spend money on it, so it is
                 necessary in order to not exceed the free plans.
-            </p>
+            </p> */}
 
             <h2 id='polls' className='text-xl text-red-500 font-semibold bg-red-500/20 rounded-md w-fit px-2'>Polls options</h2>
             <ul className='list-disc list-inside opacity-80'>

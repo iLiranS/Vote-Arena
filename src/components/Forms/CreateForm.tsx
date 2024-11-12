@@ -44,8 +44,8 @@ const styleSwitcherOptions: switcherElementProps[] = [ // title mus match util f
 ];
 // tourny values (random or order)
 const tournySwitchOptions: switcherElementProps[] = [
-    { title: 'Random', icon: <FaRandom />, color: 'text-blue-500', bg_color: 'bg-blue-500/20' },
-    { title: 'Order', icon: <GoListOrdered />, color: 'text-green-500', bg_color: 'bg-green-500/20' },
+    { title: 'random', icon: <FaRandom />, color: 'text-blue-500', bg_color: 'bg-blue-500/20' },
+    { title: 'order', icon: <GoListOrdered />, color: 'text-green-500', bg_color: 'bg-green-500/20' },
 ]
 
 const CreateForm: React.FC<{ formValue: createFormModel, submitHandler: (values: createFormModel) => void }> = ({ formValue, submitHandler }) => {
@@ -128,7 +128,7 @@ const CreateForm: React.FC<{ formValue: createFormModel, submitHandler: (values:
                     name='image'
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className='flex items-center gap-1'>Poll Image  <PopoverTooltip message='Background image for the poll' /><span className='text-xs opacity-50'>(optional)</span></FormLabel>
+                            <FormLabel className='flex items-center gap-1'>Poll Image  <PopoverTooltip message='preview image for the poll (best size is 16:9)' /><span className='text-xs opacity-50'>(optional)</span></FormLabel>
                             <FormControl>
                                 <Input onChange={(el) => { field.onChange(el.target.value.length > 0 ? el.target.value : undefined) }} placeholder='Enter image URL' type='url' defaultValue={field.value} />
                             </FormControl>
@@ -172,13 +172,14 @@ const CreateForm: React.FC<{ formValue: createFormModel, submitHandler: (values:
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className='flex items-center gap-1'>Style <PopoverTooltip message={
-                                <ol className='list-disc'>
-                                    <li>Vote : The users will order the options by most favorite <span className='text-sm opacity-75'>(up to chosen amount)</span></li>
-                                    <li>
-                                        Tourny : Single-elimination tournament
-                                        <Link className='text-violet-400 ml-1' href={'https://en.wikipedia.org/wiki/Single-elimination_tournament'} target='_blank'>(read more)</Link>
+                                <ol className='list-disc gap-2 flex flex-col'>
+                                    <li>Vote : <span className='opacity-70'>The users will order the options by most favorite (up to chosen amount)</span></li>
+                                    <li >
+                                        Tourny : <span className='opacity-70'>Single-elimination tournament
+                                            <Link className='text-violet-400 ml-1' href={'https://en.wikipedia.org/wiki/Single-elimination_tournament'} target='_blank'>(read more)</Link>
+                                        </span>
                                     </li>
-                                    <li>Timed Tourny : Coming Soon!</li>
+                                    <li >Tier list : <span className='opacity-70'>choose for each option where it stands!</span> </li>
                                 </ol>} /></FormLabel>
                             <FormControl>
                                 <Switcher
@@ -206,13 +207,13 @@ const CreateForm: React.FC<{ formValue: createFormModel, submitHandler: (values:
 
                             return (
                                 <FormItem className='ml-4'>
-                                    <FormLabel className='flex items-center gap-1'> {isTourny ? 'Random / Order' : 'Order amount'}  <PopoverTooltip message={isTourny ? <ul className='gap-2 list-disc'><li>Random : options will be against random options</li><li>Order : choose <span className='opacity-60'> (in the next step)</span> the matchups and groups. </li></ul> : 'How many options will get points. (based on their order as well)'} />{ }</FormLabel>
+                                    <FormLabel className='flex items-center gap-1'> {isTourny ? 'Random / Order' : 'Order amount'}  <PopoverTooltip message={isTourny ? <ul className='gap-2 list-disc'><li>Random : <span className='opacity-70'> options will be against random options</span></li><li>Order :  <span className='opacity-70'> choose (in the next step) the matchups and groups. </span></li></ul> : 'How many options will get points. (based on their order as well)'} />{ }</FormLabel>
                                     <FormControl>
                                         {isTourny ?
                                             <Switcher
-                                                activeIndex={getIndexFromValue(tournySwitchOptions, field.value as "order" | 'random')}
+                                                activeIndex={getIndexFromValue(tournySwitchOptions, field.value as "random" | "order")}
                                                 selecterFunction={(index) => {
-                                                    field.onChange(tournySwitchOptions[index]);  // Update the form field with the selected value
+                                                    field.onChange(tournySwitchOptions[index].title);  // Update the form field with the selected value
                                                 }}
                                                 elements={tournySwitchOptions}
                                             />
